@@ -6,6 +6,7 @@ from math import log2
 
 GOAL = 100  # The goal of Hog is to score 100 points.
 
+
 ######################
 # Phase 1: Simulator #
 ######################
@@ -90,7 +91,20 @@ def square_update(num_rolls, player_score, opponent_score, dice=six_sided):
 
 
 # BEGIN PROBLEM 4
-"*** YOUR CODE HERE ***"
+def perfect_square(score):
+    i = 0
+    while i * i < score:
+        i += 1
+    return score == i * i
+
+
+def next_perfect_square(score):
+    next_square = score + 1
+    while not perfect_square(next_square):
+        next_square += 1
+    return next_square
+
+
 # END PROBLEM 4
 
 
@@ -129,7 +143,12 @@ def play(strategy0, strategy1, update,
     """
     who = 0  # Who is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    while (score0 < goal) and (score1 < goal):
+        if who == 0:
+            score0 = update(strategy0(score0, score1), score0, score1, dice)
+        elif who == 1:
+            score1 = update(strategy1(score1, score0), score1, score0, dice)
+        who = 1 - who
     # END PROBLEM 5
     return score0, score1
 
