@@ -172,8 +172,12 @@ def always_roll(n):
     3
     """
     assert n >= 0 and n <= 10
+
     # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+    def always_roll_n(score, opponet_score):
+        return n;
+
+    return always_roll_n
     # END PROBLEM 6
 
 
@@ -203,7 +207,12 @@ def is_always_roll(strategy, goal=GOAL):
     False
     """
     # BEGIN PROBLEM 7
-    "*** YOUR CODE HERE ***"
+    num_rolls = strategy(0, 0)
+    for i in range(goal):
+        for j in range(goal):
+            if strategy(i, j) != num_rolls:
+                return False
+    return True
     # END PROBLEM 7
 
 
@@ -218,8 +227,15 @@ def make_averaged(original_function, total_samples=1000):
     >>> averaged_dice(1, dice)  # The avg of 10 4's, 10 2's, 10 5's, and 10 1's
     3.0
     """
+
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    def sampler(*args):
+        output_sum = 0
+        for _ in range(total_samples):
+            output_sum += original_function(*args)
+        return output_sum / total_samples
+
+    return sampler
     # END PROBLEM 8
 
 
@@ -233,7 +249,14 @@ def max_scoring_num_rolls(dice=six_sided, total_samples=1000):
     1
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    best_num_rolls = 1
+    best_points = 0
+    for n in range(1, 11):
+        n_points = make_averaged(roll_dice, total_samples)(n, dice)
+        if n_points > best_points:
+            best_num_rolls = n
+            best_points = n_points
+    return best_num_rolls
     # END PROBLEM 9
 
 
@@ -277,14 +300,24 @@ def tail_strategy(score, opponent_score, threshold=12, num_rolls=6):
     points, and returns NUM_ROLLS otherwise. Ignore score and Square Swine.
     """
     # BEGIN PROBLEM 10
-    return num_rolls  # Remove this line once implemented.
+    if tail_points(opponent_score) >= threshold:
+        return 0
+    else:
+        return num_rolls
     # END PROBLEM 10
 
 
 def square_strategy(score, opponent_score, threshold=12, num_rolls=6):
     """This strategy returns 0 dice when your score would increase by at least threshold."""
     # BEGIN PROBLEM 11
-    return num_rolls  # Remove this line once implemented.
+    if tail_points(opponent_score) >= threshold:
+        return 0
+    elif perfect_square(score + tail_points(opponent_score)) \
+            and \
+            next_perfect_square(score + tail_points(opponent_score)) - (
+            score + tail_points(opponent_score)) > threshold:
+        return 0
+    return num_rolls
     # END PROBLEM 11
 
 
@@ -294,7 +327,7 @@ def final_strategy(score, opponent_score):
     *** YOUR DESCRIPTION HERE ***
     """
     # BEGIN PROBLEM 12
-    return 6  # Remove this line once implemented.
+    return 6  
     # END PROBLEM 12
 
 
